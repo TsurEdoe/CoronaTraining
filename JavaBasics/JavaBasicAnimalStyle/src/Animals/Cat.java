@@ -1,11 +1,11 @@
 package Animals;
 
-public class Cat implements Animal {
-    private String name;
+import Annotations.Wired;
 
-    public Cat(String name) {
-        this.name = name;
-    }
+@Wired
+public class Cat implements Animal {
+    @Wired
+    private String name;
 
     @Override
     public void endlessLove() {

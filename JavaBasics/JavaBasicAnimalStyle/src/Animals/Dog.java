@@ -1,13 +1,12 @@
 package Animals;
 
-import java.security.PublicKey;
+import Annotations.Wired;
 
+
+@Wired
 public class Dog implements Animal {
+    @Wired
     private String name;
-
-    public Dog(String name){
-        this.name = name;
-    }
 
     @Override
     public void endlessLove() {

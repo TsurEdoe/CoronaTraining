@@ -55,7 +55,8 @@ public class ApplicationContext {
     public void startApplication() {
         try {
             System.out.println("LVL 1: Inject all dependencies to tester");
-            injectDependencies();
+            injectDependencies(this.tester);
+            injectDependencies(this.config);
             System.out.println("LVL 2: Run all tests");
             invokeAllTests();
         } catch (Exception e) {
@@ -68,13 +69,17 @@ public class ApplicationContext {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    private void injectDependencies() throws InvocationTargetException, IllegalAccessException {
-        Field[] fields = tester.getClass().getDeclaredFields();
+    private void injectDependencies(Object obj) throws InvocationTargetException, IllegalAccessException {
+        Field[] fields = obj.getClass().getDeclaredFields();
         for (Field fi : fields) {
+            fi.setAccessible(true);
             if (fi.getAnnotation(Wired.class) !=  null){
-                fi.setAccessible(true);
-                fi.set(this.tester,getSeed(fi.getType()));
+                fi.set(obj,getSeed(fi.getType()));
                 System.out.println("Dependency Injected");
+            }
+            if (fi.get(obj).getClass().getDeclaredAnnotation(Wired.class) !=  null){
+                // if there is a field of a class that is annotatied with Wired, inject the needed dependencies
+                injectDependencies(fi.get(obj));
             }
         }
     }

@@ -1,14 +1,16 @@
-import Animals.Animal;
+import Animals.*;
 import Annotations.Test;
 import Annotations.Wired;
 
 public class AnimalTester {
     @Wired
-    private Animal[] animals;
+    private Cat cat;
+    @Wired
+    private Dog dog;
 
     @Test
     public void checkAnimalsEndlessLove() {
-        for (Animal animal : animals) {
+        for (Animal animal : new Animal[]{cat,dog}) {
             System.out.print(animal.getName() + " : ");
             animal.endlessLove();
         }
@@ -16,7 +18,7 @@ public class AnimalTester {
 
     @Test
     public void checkAnimalsSpeak() {
-        for (Animal animal : animals) {
+        for (Animal animal : new Animal[]{cat,dog}) {
             System.out.println(animal.getName() + " say " + animal.speak());
         }
     }
